@@ -13,6 +13,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
@@ -106,5 +107,29 @@ public class EmployeeController {
         //执行查询
         employeeService.page(pageInfo, queryWrapper);
         return Result.success(pageInfo);
+    }
+
+    /**
+     * 员工信息修改功能
+     * @param employee
+     * @return
+     */
+    @PutMapping
+    public Result<String> update(@RequestBody Employee employee) {
+        log.info(employee.toString());
+        long id = Thread.currentThread().getId();
+        log.info("线程id为：{}",id);
+        employeeService.updateById(employee);
+        return Result.success("员工信息修改成功");
+    }
+
+    @GetMapping("/{id}")
+    private Result<Employee> getById(@PathVariable Long id) {
+        log.info(("根据id查询员工信息..."));
+        Employee employee = employeeService.getById(id);
+        if (employee!=null) {
+            return Result.success(employee);
+        }
+        return Result.error("没有查询到对应员工信息");
     }
 }

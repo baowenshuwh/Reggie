@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping
+@RequestMapping("/common")
 public class CommonController {
     @Value("${reggie.path}")
     private String basePath;
